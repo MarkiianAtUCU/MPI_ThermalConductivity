@@ -2,22 +2,34 @@
 // Created by markiian on 16.10.19.
 //
 
-#include "../includes/MpiTable.h"
-
-std::vector<float> MpiTable::getBottom() {
-    return nullptr;
+#include <cmath>
+#include <iostream>
+#include "MpiTable.h"
+double * MpiTable::getBottom() {
+    return &(*from)[(width+2) * height + 1];
 }
 
-std::vector<float> MpiTable::getTop() {
-    return std::vector<float>();
+double * MpiTable::getTop() {
+    return &(*from)[width + 3];
 }
 
-double MpiTable::at(int x, int y) {
-    return 0;
+double MpiTable::get(int x, int y) {
+    if (!(x > -1 && x < width && y > -1 && y < height)) throw;
+    return (*from)[ (y+1) * (width+2) + x+1];
 }
 
-MpiTable::MpiTable(int width, int height, std::vector<float> & data) : width(width), height(height) {
+void MpiTable::set(int x, int y, double el) {
+    if (!(x > -1 && x < width && y > -1 && y < height)) throw;
+    (*to)[ (y+1) * (width+2) + x+1] = el;
+}
+
+
+MpiTable::MpiTable(int width, int height, std::vector<double> & data) : width(width), height(height), data0((width+2)*(height+2)), data1((width+2)*(height+2)) {
     data0 = std::move(data);
-    currentData = &data0;
+    from = &data0;
+    to = &data1;
 }
 
+void MpiTable::flip() {
+    std::swap(from, to);
+}

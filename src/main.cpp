@@ -1,7 +1,10 @@
 #include <iostream>
+#include <config_reader.h>
 #include "MpiTable.h"
 
 int main() {
+    config *c = new config("../config.data");
+    std::vector<double> table(20);
 
     std::vector<double> top { 0,   1,   2,   3,   4,  5};
     std::vector<double> vect{-1,  10,  20,  30,  40, -1,
@@ -11,11 +14,15 @@ int main() {
                              -1, 170, 180, 190, 200, -1};
     std::vector<double> bot { -2,  -3,  -4, -5,  -6, -7};
 
+    c->get_table(table);
     auto a = MpiTable(4,5, vect);
     a.setNeighbourTop(top);
     a.setNeighbourBottom(bot);
 
 
+    for (int i = 0; i < table.size(); ++i) {
+        std::cout << table[i] << std::endl;
+    }
     std::vector<double> tt = a.getTop();
     std::vector<double> tb = a.getBottom();
 

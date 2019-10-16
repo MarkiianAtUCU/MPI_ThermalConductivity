@@ -12,18 +12,18 @@
 #include <iostream>
 #include <vector>
 
-class config {
+class ConfigReader {
 private:
     std::string filename;
 public:
     std::map<std::string, std::string> m;
 
-    config(const std::string &filename) : filename(filename) {
+    explicit ConfigReader(const std::string &filename) : filename(filename) {
         std::ifstream file(filename);
         if (file.is_open()) {
             std::string tmp_str;
             while (std::getline(file, tmp_str)) {
-                int x = tmp_str.find(":");
+                int x = tmp_str.find(':');
                 m[tmp_str.substr(0, x)] = tmp_str.substr(x+2, tmp_str.length());
 
             }
@@ -57,24 +57,14 @@ public:
         }
     }
 
-    void get_table(std::vector<double> &table) {
+    void getTable(std::vector<double> &table) {
         std::ifstream file(m["table_path"]);
         if (file.is_open()) {
-            std::string tmp_str;
-            while (std::getline(file, tmp_str)) {
-                size_t middlePos = tmp_str.find(' ');
-                size_t startPos = 0;
-                std::string tmp = "";
-                while (middlePos != std::string::npos) {
-                    tmp += tmp_str.substr(startPos, middlePos - startPos);
-                    startPos = middlePos+1;
-
-                    table.push_back(atof(tmp.c_str()));
-                    tmp = "";
-
-                    middlePos = tmp_str.find( ' ', startPos );
-                }
-                table.push_back( atof(tmp_str.substr( startPos, std::min( middlePos, tmp_str.size() ) - startPos + 1 ).c_str()));
+            double num;
+            int i=0;
+            while (file >> num) {
+                table[i] = num;
+                i++;
             }
             file.close();
         } else {

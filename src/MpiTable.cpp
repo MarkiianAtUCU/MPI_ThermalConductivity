@@ -50,3 +50,7 @@ void MpiTable::setNeighbourTop(std::vector<double> &data) {
 void MpiTable::setNeighbourBottom(std::vector<double> &data) {
     neighbourBottom = std::move(data);
 }
+
+MpiTable::MpiTable() {
+
+}

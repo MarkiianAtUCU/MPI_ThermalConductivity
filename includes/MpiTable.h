@@ -35,6 +35,7 @@ public:
     std::vector<double> getTop();
     std::vector<double> getBottom();
 
+    MpiTable();
 };
 
 #endif //MPI_MPITABLE_H

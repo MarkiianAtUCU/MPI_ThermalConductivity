@@ -1,8 +1,7 @@
-err_abs: 400
-err_rel: 0.0005
-num_threads: 18
-x_start: -100
-x_end: 100
-y_start: -100
-y_end: 100
+height: 10
+width: 4
 table_path: ../table.data
+num_threads: 3
+d_X: 0.01
+d_Y: 0.01
+save_freq: 100
